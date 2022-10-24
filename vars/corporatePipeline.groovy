@@ -5,7 +5,7 @@ def call(body) {
     body()
 
   pipeline {
-    agent none
+    agent any
     stages {
       stage('Fluffy Build') {
         parallel {
@@ -14,187 +14,11 @@ def call(body) {
               node {
                 label 'controller'
               }
-
             }
-            post {
-              success {
-                stash(name: 'Java 8', includes: 'target/**')
-
-              }
-
-            }
-            steps {
-              runLinuxScript(name: "build.sh")
+            steps{
+                echo 'prueba'
             }
           }
-          stage('Build Java 7') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            post {
-              success {
-                postBuildSuccess(stashName: "Java 7")
-              }
-
-            }
-            steps {
-              runLinuxScript(name: "build.sh")
-            }
-          }
-        }
-      }
-      stage('Fluffy Test') {
-        parallel {
-          stage('Backend Java 8') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            post {
-              always {
-                junit 'target/surefire-reports/**/TEST*.xml'
-
-              }
-
-            }
-            steps {
-              unstash 'Java 8'
-              sh './jenkins/test-backend.sh'
-            }
-          }
-          stage('Frontend Java 8') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            post {
-              always {
-                junit 'target/test-results/**/TEST*.xml'
-
-              }
-
-            }
-            steps {
-              unstash 'Java 8'
-              sh './jenkins/test-frontend.sh'
-            }
-          }
-          stage('Performance Java 8') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            steps {
-              unstash 'Java 8'
-              sh './jenkins/test-performance.sh'
-            }
-          }
-          stage('Static Java 8') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            steps {
-              unstash 'Java 8'
-              sh './jenkins/test-static.sh'
-            }
-          }
-          stage('Backend Java 7') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            post {
-              always {
-                junit 'target/surefire-reports/**/TEST*.xml'
-
-              }
-
-            }
-            steps {
-              unstash 'Java 7'
-              sh './jenkins/test-backend.sh'
-            }
-          }
-          stage('Frontend Java 7') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            post {
-              always {
-                junit 'target/test-results/**/TEST*.xml'
-
-              }
-
-            }
-            steps {
-              unstash 'Java 7'
-              sh './jenkins/test-frontend.sh'
-            }
-          }
-          stage('Performance Java 7') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            steps {
-              unstash 'Java 7'
-              sh './jenkins/test-performance.sh'
-            }
-          }
-          stage('Static Java 7') {
-            agent {
-              node {
-                label 'controller'
-              }
-
-            }
-            steps {
-              unstash 'Java 7'
-              sh './jenkins/test-static.sh'
-            }
-          }
-        }
-      }
-      stage('Confirm Deploy') {
-        when {
-          branch 'main'
-        }
-        steps {
-          input(message: 'Okay to Deploy to Staging?', ok: 'Let\'s Do it!')
-        }
-      }
-      stage('Fluffy Deploy') {
-        agent {
-          node {
-            label 'controller'
-          }
-
-        }
-        when {
-          branch 'main'
-        }
-        steps {
-          unstash 'Java 7'
-          sh "./jenkins/deploy.sh ${pipelineParams.deployTo}"
         }
       }
     }
