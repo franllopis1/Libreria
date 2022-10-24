@@ -12,7 +12,7 @@ def call(body) {
           stage('Build Java 8') {
             agent {
               node {
-                label 'principal'
+                label 'controller'
               }
 
             }
@@ -30,7 +30,7 @@ def call(body) {
           stage('Build Java 7') {
             agent {
               node {
-                label 'principal'
+                label 'controller'
               }
 
             }
