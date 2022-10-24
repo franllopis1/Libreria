@@ -51,7 +51,7 @@ def call(body) {
           stage('Backend Java 8') {
             agent {
               node {
-                label 'java8'
+                label 'controller'
               }
 
             }
@@ -70,7 +70,7 @@ def call(body) {
           stage('Frontend Java 8') {
             agent {
               node {
-                label 'java8'
+                label 'controller'
               }
 
             }
@@ -89,7 +89,7 @@ def call(body) {
           stage('Performance Java 8') {
             agent {
               node {
-                label 'java8'
+                label 'controller'
               }
 
             }
@@ -101,7 +101,7 @@ def call(body) {
           stage('Static Java 8') {
             agent {
               node {
-                label 'java8'
+                label 'controller'
               }
 
             }
@@ -113,7 +113,7 @@ def call(body) {
           stage('Backend Java 7') {
             agent {
               node {
-                label 'java7'
+                label 'controller'
               }
 
             }
@@ -132,7 +132,7 @@ def call(body) {
           stage('Frontend Java 7') {
             agent {
               node {
-                label 'java7'
+                label 'controller'
               }
 
             }
@@ -151,7 +151,7 @@ def call(body) {
           stage('Performance Java 7') {
             agent {
               node {
-                label 'java7'
+                label 'controller'
               }
 
             }
@@ -163,7 +163,7 @@ def call(body) {
           stage('Static Java 7') {
             agent {
               node {
-                label 'java7'
+                label 'controller'
               }
 
             }
@@ -176,7 +176,7 @@ def call(body) {
       }
       stage('Confirm Deploy') {
         when {
-          branch 'master'
+          branch 'main'
         }
         steps {
           input(message: 'Okay to Deploy to Staging?', ok: 'Let\'s Do it!')
@@ -185,12 +185,12 @@ def call(body) {
       stage('Fluffy Deploy') {
         agent {
           node {
-            label 'java7'
+            label 'controller'
           }
 
         }
         when {
-          branch 'master'
+          branch 'main'
         }
         steps {
           unstash 'Java 7'
