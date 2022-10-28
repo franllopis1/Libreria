@@ -1,3 +1,3 @@
-def call(String name, String version) {
-  sh "echo Aplicacion ${name}. Su version es ${version}."
+def call(Map config = [:]) {
+  sh "echo Aplicacion ${config.name}. Su version es ${config.version}."
 }
