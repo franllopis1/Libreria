@@ -1,3 +1,1 @@
-def File("release.yaml").eachLine { 
-   line -> println line
-}
+def listarFichero = { println $it}
