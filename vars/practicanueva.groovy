@@ -1,3 +1,3 @@
-def call(Map config = [:]) {
-  sh "echo Aplicacion ${config.name}. Su version es ${config.version}."
+new File("release.yaml").eachLine { 
+   line -> println line
 }
