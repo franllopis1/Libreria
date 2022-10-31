@@ -1,1 +1,3 @@
-def listar = { println $it}
+def File("release.yaml").eachLine { 
+   line -> println line
+}
