@@ -1,1 +1,1 @@
-def listarFichero = { println $it}
+def listar = { println $it}
