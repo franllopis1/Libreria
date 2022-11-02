@@ -1,2 +1,3 @@
-new File ("release.yaml").eachLine listar
-def listar = { println $it}
+def call(String name, String dayOfWeek) {
+  sh "echo Hello World ${name}. It is ${dayOfWeek}."
+}
